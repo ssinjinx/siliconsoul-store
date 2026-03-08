@@ -1,6 +1,16 @@
 import { redirect } from 'next/navigation';
 import { getUserPurchases, getApiKeys, createApiKey, deleteApiKey } from '@/lib/purchases';
 import { auth } from '@clerk/nextjs/server';
+import type { Product, ApiKey } from '@/db/schema';
+
+type PurchaseWithProduct = {
+  id: string;
+  userId: string;
+  productId: string;
+  stripeSessionId: string | null;
+  createdAt: Date;
+  product: Product | null;
+};
 
 export const dynamic = 'force-dynamic';
 
@@ -11,7 +21,7 @@ export default async function Dashboard() {
     redirect('/sign-in');
   }
 
-  const purchases = await getUserPurchases(userId);
+  const purchases: PurchaseWithProduct[] = await getUserPurchases(userId);
 
   return (
     <main className="min-h-screen bg-gray-950 text-white">
@@ -51,7 +61,7 @@ export default async function Dashboard() {
 }
 
 async function ApiKeySection({ userId, productId }: { userId: string; productId: string }) {
-  const keys = await getApiKeys(userId, productId);
+  const keys: ApiKey[] = await getApiKeys(userId, productId);
 
   async function createKey() {
     'use server';

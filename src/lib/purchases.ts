@@ -1,11 +1,13 @@
 import { db } from '@/db';
-import { purchases as purchasesTable, apiKeys as apiKeysTable, products as productsTable } from '@/db/schema';
+import { purchases as purchasesTable, apiKeys as apiKeysTable, products as productsTable, type Purchase, type Product, type ApiKey } from '@/db/schema';
 import { eq, and } from 'drizzle-orm';
 import { v4 as uuidv4 } from 'uuid';
 import crypto from 'crypto';
 
-export async function getUserPurchases(userId: string) {
-  return db.select({
+type PurchaseWithProduct = Purchase & { product: Product | null };
+
+export async function getUserPurchases(userId: string): Promise<PurchaseWithProduct[]> {
+  const results = await db.select({
     id: purchasesTable.id,
     productId: purchasesTable.productId,
     stripeSessionId: purchasesTable.stripeSessionId,
@@ -15,6 +17,8 @@ export async function getUserPurchases(userId: string) {
     .from(purchasesTable)
     .leftJoin(productsTable, eq(purchasesTable.productId, productsTable.id))
     .where(eq(purchasesTable.userId, userId));
+
+  return results as PurchaseWithProduct[];
 }
 
 export async function hasPurchased(userId: string, productId: string): Promise<boolean> {
@@ -37,7 +41,7 @@ export async function createPurchase(userId: string, productId: string, stripeSe
   });
 }
 
-export async function getApiKeys(userId: string, productId: string) {
+export async function getApiKeys(userId: string, productId: string): Promise<ApiKey[]> {
   return db.select()
     .from(apiKeysTable)
     .where(and(
