@@ -1,13 +1,13 @@
-import { sqliteTable, text, integer, real } from 'drizzle-orm/sqlite-core';
+import { pgTable, text, timestamp, real } from 'drizzle-orm/pg-core';
 
-export const users = sqliteTable('users', {
+export const users = pgTable('users', {
   id: text('id').primaryKey(),
   email: text('email').notNull(),
   name: text('name'),
-  createdAt: integer('created_at', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
 });
 
-export const products = sqliteTable('products', {
+export const products = pgTable('products', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
   slug: text('slug').notNull().unique(),
@@ -15,24 +15,24 @@ export const products = sqliteTable('products', {
   price: real('price').notNull(),
   stripePriceId: text('stripe_price_id'),
   features: text('features'),
-  createdAt: integer('created_at', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
 });
 
-export const purchases = sqliteTable('purchases', {
+export const purchases = pgTable('purchases', {
   id: text('id').primaryKey(),
   userId: text('user_id').notNull(),
   productId: text('product_id').notNull(),
   stripeSessionId: text('stripe_session_id'),
-  createdAt: integer('created_at', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
 });
 
-export const apiKeys = sqliteTable('api_keys', {
+export const apiKeys = pgTable('api_keys', {
   id: text('id').primaryKey(),
   userId: text('user_id').notNull(),
   productId: text('product_id').notNull(),
   key: text('key').notNull().unique(),
-  createdAt: integer('created_at', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
-  lastUsed: integer('last_used', { mode: 'timestamp' }),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  lastUsed: timestamp('last_used'),
 });
 
 export type User = typeof users.$inferSelect;

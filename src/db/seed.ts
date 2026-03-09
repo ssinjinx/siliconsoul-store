@@ -69,7 +69,7 @@ async function seed() {
   console.log('Seeding database...');
 
   for (const product of products) {
-    await db.insert(productsTable).values(product).onConflictDoNothing().execute();
+    await db.insert(productsTable).values(product).onConflictDoNothing();
   }
 
   console.log('Seeded products:', products.length);
