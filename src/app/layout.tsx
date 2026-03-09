@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { ClerkProvider } from '@clerk/nextjs';
+import { ClerkProvider, SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -35,10 +35,26 @@ export default function RootLayout({
               <a href="/" className="text-xl font-bold lime-glow">Silicon Soul</a>
               <div className="flex items-center gap-6">
                 <a href="/products" className="text-lime-400 hover:text-lime-300 transition">Products</a>
-                <a href="/dashboard" className="text-lime-400 hover:text-lime-300 transition">Dashboard</a>
+                <SignedOut>
+                  <SignInButton mode="modal">
+                    <button className="text-lime-400 hover:text-lime-300 transition">Sign In</button>
+                  </SignInButton>
+                </SignedOut>
+                <SignedIn>
+                  <UserButton afterSignOutUrl="/" />
+                </SignedIn>
               </div>
             </div>
           </nav>
+          <footer className="lime-border bg-black/80 px-6 py-8 mt-auto">
+            <div className="mx-auto max-w-6xl flex flex-col md:flex-row justify-between items-center gap-4 text-lime-400/60 text-sm">
+              <p>&copy; {new Date().getFullYear()} Silicon Soul. All rights reserved.</p>
+              <div className="flex gap-6">
+                <a href="/privacy" className="hover:text-lime-400 transition">Privacy Policy</a>
+                <a href="/terms" className="hover:text-lime-400 transition">Terms of Service</a>
+              </div>
+            </div>
+          </footer>
           {children}
         </body>
       </html>
