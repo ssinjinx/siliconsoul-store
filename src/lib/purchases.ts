@@ -7,22 +7,21 @@ import crypto from 'crypto';
 type PurchaseWithProduct = Purchase & { product: Product | null };
 
 export async function getUserPurchases(userId: string): Promise<PurchaseWithProduct[]> {
-  const results = await db.select({
-    id: purchasesTable.id,
-    productId: purchasesTable.productId,
-    stripeSessionId: purchasesTable.stripeSessionId,
-    createdAt: purchasesTable.createdAt,
-    product: productsTable,
-  })
+  const results = await db
+    .select()
     .from(purchasesTable)
     .leftJoin(productsTable, eq(purchasesTable.productId, productsTable.id))
     .where(eq(purchasesTable.userId, userId));
 
-  return results as unknown as PurchaseWithProduct[];
+  return results.map(r => ({
+    ...r.purchases,
+    product: r.products
+  })) as PurchaseWithProduct[];
 }
 
 export async function hasPurchased(userId: string, productId: string): Promise<boolean> {
-  const [result] = await db.select()
+  const [result] = await db
+    .select()
     .from(purchasesTable)
     .where(and(
       eq(purchasesTable.userId, userId),
@@ -42,7 +41,8 @@ export async function createPurchase(userId: string, productId: string, stripeSe
 }
 
 export async function getApiKeys(userId: string, productId: string): Promise<ApiKey[]> {
-  return db.select()
+  return db
+    .select()
     .from(apiKeysTable)
     .where(and(
       eq(apiKeysTable.userId, userId),

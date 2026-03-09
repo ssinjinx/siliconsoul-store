@@ -1,13 +1,13 @@
-import { pgTable, text, timestamp, real } from 'drizzle-orm/pg-core';
+import { sqliteTable, text, integer, real } from 'drizzle-orm/sqlite-core';
 
-export const users = pgTable('users', {
+export const users = sqliteTable('users', {
   id: text('id').primaryKey(),
   email: text('email').notNull(),
   name: text('name'),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
 });
 
-export const products = pgTable('products', {
+export const products = sqliteTable('products', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
   slug: text('slug').notNull().unique(),
@@ -15,24 +15,24 @@ export const products = pgTable('products', {
   price: real('price').notNull(),
   stripePriceId: text('stripe_price_id'),
   features: text('features'),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
 });
 
-export const purchases = pgTable('purchases', {
+export const purchases = sqliteTable('purchases', {
   id: text('id').primaryKey(),
   userId: text('user_id').notNull(),
   productId: text('product_id').notNull(),
   stripeSessionId: text('stripe_session_id'),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
 });
 
-export const apiKeys = pgTable('api_keys', {
+export const apiKeys = sqliteTable('api_keys', {
   id: text('id').primaryKey(),
   userId: text('user_id').notNull(),
   productId: text('product_id').notNull(),
   key: text('key').notNull().unique(),
-  createdAt: timestamp('created_at').notNull().defaultNow(),
-  lastUsed: timestamp('last_used'),
+  createdAt: integer('created_at', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
+  lastUsed: integer('last_used', { mode: 'timestamp' }),
 });
 
 export type User = typeof users.$inferSelect;
