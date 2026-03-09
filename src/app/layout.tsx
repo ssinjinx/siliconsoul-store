@@ -28,13 +28,14 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased circuit-bg`}
         >
-          <nav className="border-b border-gray-800 bg-gray-950 px-6 py-4">
+          <nav className="lime-border bg-black/80 backdrop-blur-sm px-6 py-4 sticky top-0 z-50">
             <div className="mx-auto max-w-6xl flex items-center justify-between">
-              <a href="/" className="text-xl font-bold text-white">Silicon Soul</a>
-              <div className="flex items-center gap-4">
-                <a href="/dashboard" className="text-gray-300 hover:text-white transition">Dashboard</a>
+              <a href="/" className="text-xl font-bold lime-glow">Silicon Soul</a>
+              <div className="flex items-center gap-6">
+                <a href="/products" className="text-lime-400 hover:text-lime-300 transition">Products</a>
+                <a href="/dashboard" className="text-lime-400 hover:text-lime-300 transition">Dashboard</a>
               </div>
             </div>
           </nav>

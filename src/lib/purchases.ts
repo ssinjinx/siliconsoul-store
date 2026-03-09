@@ -18,7 +18,7 @@ export async function getUserPurchases(userId: string): Promise<PurchaseWithProd
     .leftJoin(productsTable, eq(purchasesTable.productId, productsTable.id))
     .where(eq(purchasesTable.userId, userId));
 
-  return results as PurchaseWithProduct[];
+  return results as unknown as PurchaseWithProduct[];
 }
 
 export async function hasPurchased(userId: string, productId: string): Promise<boolean> {
@@ -47,7 +47,7 @@ export async function getApiKeys(userId: string, productId: string): Promise<Api
     .where(and(
       eq(apiKeysTable.userId, userId),
       eq(apiKeysTable.productId, productId)
-    ));
+    )) as unknown as Promise<ApiKey[]>;
 }
 
 export async function createApiKey(userId: string, productId: string) {

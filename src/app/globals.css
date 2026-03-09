@@ -3,21 +3,110 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --lime: #84cc17;
+  --lime-dark: #65a30d;
+  --lime-light: #a3e635;
+  --background: #0a0a0a;
+  --foreground: #f0fdf4;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Courier New', Courier, monospace;
+  min-height: 100vh;
+}
+
+/* Circuit board background pattern */
+.circuit-bg {
+  background-color: #0a0a0a;
+  background-image:
+    /* Horizontal lines */
+    linear-gradient(rgba(132, 204, 23, 0.03) 1px, transparent 1px),
+    /* Vertical lines */
+    linear-gradient(90deg, rgba(132, 204, 23, 0.03) 1px, transparent 1px),
+    /* Circuit nodes */
+    radial-gradient(circle at 25% 25%, rgba(132, 204, 23, 0.15) 2px, transparent 2px),
+    radial-gradient(circle at 75% 75%, rgba(132, 204, 23, 0.15) 2px, transparent 2px),
+    radial-gradient(circle at 50% 50%, rgba(132, 204, 23, 0.1) 3px, transparent 3px);
+  background-size: 50px 50px, 50px 50px, 100px 100px, 100px 100px, 150px 150px;
+  position: relative;
+}
+
+/* Glowing circuit lines */
+.circuit-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    /* Diagonal circuit traces */
+    linear-gradient(45deg, transparent 48%, rgba(132, 204, 23, 0.05) 49%, rgba(132, 204, 23, 0.05) 51%, transparent 52%),
+    linear-gradient(-45deg, transparent 48%, rgba(132, 204, 23, 0.05) 49%, rgba(132, 204, 23, 0.05) 51%, transparent 52%);
+  background-size: 100px 100px;
+  pointer-events: none;
+}
+
+/* Lime green glow effects */
+.lime-glow {
+  text-shadow: 0 0 10px rgba(132, 204, 23, 0.5), 0 0 20px rgba(132, 204, 23, 0.3);
+}
+
+.lime-border {
+  border: 1px solid #84cc17;
+  box-shadow: 0 0 10px rgba(132, 204, 23, 0.2), inset 0 0 10px rgba(132, 204, 23, 0.1);
+}
+
+.lime-card {
+  background: rgba(132, 204, 23, 0.05);
+  border: 1px solid rgba(132, 204, 23, 0.3);
+  box-shadow: 0 0 20px rgba(132, 204, 23, 0.1);
+  transition: all 0.3s ease;
+}
+
+.lime-card:hover {
+  background: rgba(132, 204, 23, 0.1);
+  border-color: rgba(132, 204, 23, 0.5);
+  box-shadow: 0 0 30px rgba(132, 204, 23, 0.2);
+}
+
+.lime-btn {
+  background: linear-gradient(135deg, #84cc17 0%, #65a30d 100%);
+  color: #000;
+  font-weight: bold;
+  border: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(132, 204, 23, 0.3);
+}
+
+.lime-btn:hover {
+  background: linear-gradient(135deg, #a3e635 0%, #84cc17 100%);
+  box-shadow: 0 0 25px rgba(132, 204, 23, 0.5);
+  transform: translateY(-2px);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #65a30d;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #84cc17;
 }
 
 @layer utilities {
