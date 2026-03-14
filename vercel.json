@@ -1,6 +1,7 @@
 {
   "rewrites": [
-    { "source": "/mc", "destination": "https://workspace-gp1mmdzow-ssinjinxs-projects.vercel.app/mc" },
-    { "source": "/mc/(.*)", "destination": "https://workspace-gp1mmdzow-ssinjinxs-projects.vercel.app/mc/$1" }
+    { "source": "/mc", "destination": "https://workspace-gp1mmdzow-ssinjinxs-projects.vercel.app/" },
+    { "source": "/mc/:path*", "destination": "https://workspace-gp1mmdzow-ssinjinxs-projects.vercel.app/:path*" }
   ]
 }
+
