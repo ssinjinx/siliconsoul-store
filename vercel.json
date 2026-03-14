@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/mc", "destination": "https://workspace-gp1mmdzow-ssinjinxs-projects.vercel.app/mc" },
+    { "source": "/mc/(.*)", "destination": "https://workspace-gp1mmdzow-ssinjinxs-projects.vercel.app/mc/$1" }
+  ]
+}
