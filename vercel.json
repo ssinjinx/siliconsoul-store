@@ -2,6 +2,7 @@
   "rewrites": [
     { "source": "/mc", "destination": "https://workspace-rouge-psi.vercel.app/" },
     { "source": "/mc/:path*", "destination": "https://workspace-rouge-psi.vercel.app/:path*" },
+    { "source": "/_next/:path*", "destination": "https://workspace-rouge-psi.vercel.app/_next/:path*" },
     { "source": "/api/:path*", "destination": "https://workspace-rouge-psi.vercel.app/api/:path*" }
   ]
 }
